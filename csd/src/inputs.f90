@@ -4,7 +4,9 @@
     !->+++++++++++++++++++++++++++++++++++++++++++++
     TYPE,PUBLIC :: IPTIN
 
-        INTEGER :: NumofRotors,RotorID,NLG,NPTS
+        INTEGER :: NumofRotors,RotorID
+        REAL(8) :: THETA(6)!共轴上下旋翼总距和周期变距
+        INTEGER :: NLG,NPTS
         REAL(RDT) :: BTAP
         REAL(RDT) :: LDTIP(3)
         REAL(RDT) :: MU
@@ -162,7 +164,9 @@
     CLASS(IPTIN) :: THIS
     INTEGER,INTENT(IN) :: IIN
 
-    INTEGER :: NumofRotors,RotorID,NLG,NPTS
+    INTEGER :: NumofRotors,RotorID,N
+    REAL(8) :: THETA(6)!共轴上下旋翼总距和周期变距
+    INTEGER :: NLG,NPTS
     REAL(RDT) :: BTAP
     REAL(RDT) :: LDTIP(3)
     REAL(RDT) :: MU
@@ -170,7 +174,7 @@
     INTEGER :: ISR
     REAL(RDT) :: CTC
     REAL(RDT) :: RHA
-    REAL(RDT) :: TH0,TH1C,TH1S
+    !REAL(RDT) :: TH0,TH1C,TH1S
     INTEGER :: NOD,RHS,NMN,NMNV,NMNW,NMNT,NMNA,NMNF
     INTEGER :: CNDN,HINGES(6),NFPCT,NHFLP,NPTCT,NHPIT,NLLCT,NHLAG
     INTEGER :: SOL
@@ -183,7 +187,7 @@
     INTEGER :: mkim, mdyim
     INTEGER :: mktrim, mkfm
 
-    NAMELIST /INPUT/ NumofRotors,RotorID
+    NAMELIST /INPUT/ NumofRotors,RotorID,THETA,&
         NLG,&
         NPTS,&
         BTAP,&
@@ -192,7 +196,7 @@
         thetapa, delta, isr,&
         CTC, &
         RHA,&
-        TH0,TH1C,TH1S,&
+        !TH0,TH1C,TH1S,&
         NOD,RHS,NMN,NMNV,NMNW,NMNT,NMNA,NMNF, &
         CNDN,HINGES,NFPCT,NHFLP,NPTCT,NHPIT,NLLCT,NHLAG,&
         SOL,  &
@@ -208,6 +212,9 @@
     REWIND(IIN)
     READ(IIN,NML=INPUT)
     THIS%NumofRotors=NumofRotors
+    THIS%RotorID=RotorID
+    THIS%THETA=THETA
+    
     THIS%NLG=NLG
     THIS%NPTS=NPTS
     THIS%BTAP=BTAP
@@ -218,9 +225,23 @@
     THIS%isr=isr
     THIS%CTC =CTC
     THIS%RHA=RHA
-    THIS%TH0=TH0
-    THIS%TH1C=TH1C
-    THIS%TH1S=TH1S
+    
+    DO N=1,NumofRotors
+        IF(RotorID.EQ.1)THEN!上旋翼或单旋翼
+            THIS%TH0=THETA(1)
+            THIS%TH1C=THETA(2)
+            THIS%TH1S=THETA(3)
+        ELSE IF(RotorID.EQ.2)THEN!下旋翼
+            THIS%TH0=THETA(4)
+            THIS%TH1C=THETA(5)
+            THIS%TH1S=THETA(6)
+        END IF
+    END DO
+
+    !THIS%TH0=TH0
+    !THIS%TH1C=TH1C
+    !THIS%TH1S=TH1S
+    
     THIS%NOD=NOD
     THIS%RHS=RHS
     THIS%NMN=NMN

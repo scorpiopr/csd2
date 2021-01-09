@@ -11,7 +11,7 @@ module get_vi_y
     REAL(8),parameter :: pi=3.141592653
     !REAL(8) :: dpsi,rr0,r_cut=0.1117,rr=5.4864,dr,omega=33.73,vx,vz,gamma=0.0,phi70=0.0,dphi0=0.0,rho=1.121,cc,aa,hh=0.762,mu=0.3963,alpha_s=7.5!共轴
     !INTEGER :: kk=3,np=180,nr=50!共轴
-    REAL(8) :: dpsi,rr0,r_cut,rr,dr,omega,vx,vz,gamma,phi70,dphi0,rho,cc,aa,hh,mu,alpha_s
+    REAL(8) :: dpsi,rr0,r_cut,rr,dr,omega,vx,vz,gamma,phi70,dphi0,rho,cc,aa,hh,mu,alpha_s!gamma：提前操纵角；phi70：0.7R处安装角；dphi0：桨叶扭度
     INTEGER :: kk,np,nr
     
     PRIVATE pi,dpsi,rr0,r_cut,rr,dr,omega,vx,vz,gamma,phi70,dphi0,rho,cc,aa,hh,mu,alpha_s,kk,np,nr

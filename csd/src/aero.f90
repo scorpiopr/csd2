@@ -21,6 +21,7 @@ TYPE,PUBLIC :: AERO
     INTEGER :: NSTP
 
     INTEGER :: MKIM
+    INTEGER :: RotorID!共轴
 
     REAL(RDT) :: ALC,CD0,XAD,BSC,cchordrf
 
@@ -98,6 +99,7 @@ INTEGER :: I
     THIS%ALCSRF=INPU%IPT%ALCSRF
 
     THIS%MKIM=INPU%IPT%MKIM
+    THIS%RotorID=INPU%IPT%RotorID!共轴
 
     CALL THIS%INF%CONSTRUCT_INFLOW(INPU)
     CALL THIS%SEF%CONSTRUCT_SECTIONF(INPU)
@@ -458,8 +460,9 @@ real(rdt) :: SSI,SSJ,ZERO=0.0
         call rxlct2(NJ, SSJ, NPTS, RB, RLUDAUD) 
 
         DO I=1,3
-            CALL INTP2D(INDVL(I),SSI,SSJ,THIS%bvqa(I,NJ,NI,1),THIS%bvqa(I,NJ,NI+1,1),THIS%bvqa(I,NJ+1,NI,1),THIS%BVQA(I,NJ+1,NI+1,1))
+            !CALL INTP2D(INDVL(I),SSI,SSJ,THIS%bvqa(I,NJ,NI,1),THIS%bvqa(I,NJ,NI+1,1),THIS%bvqa(I,NJ+1,NI,1),THIS%BVQA(I,NJ+1,NI+1,1))
             !CALL INTP2D(INDVL(I),SSI,SSJ,THIS%bvqa(I,NJ,NI,2),THIS%bvqa(I,NJ,NI+1,2),THIS%bvqa(I,NJ+1,NI,2),THIS%BVQA(I,NJ+1,NI+1,2))!更改共轴上下旋翼诱导速度输入
+            CALL INTP2D(INDVL(I),SSI,SSJ,THIS%bvqa(I,NJ,NI,THIS%RotorID),THIS%bvqa(I,NJ,NI+1,THIS%RotorID),THIS%bvqa(I,NJ+1,NI,THIS%RotorID),THIS%BVQA(I,NJ+1,NI+1,THIS%RotorID))
         END DO
     
     END IF
