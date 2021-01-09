@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VisualStudioProject ProjectCreator="Intel Fortran" Keyword="Console Application" Version="11.0" ProjectIdGuid="{0D1CCAFA-B290-4FFC-8620-B9AFF0C2912C}">
+	<Platforms>
+		<Platform Name="Win32"/>
+		<Platform Name="x64"/></Platforms>
+	<Configurations>
+		<Configuration Name="Debug|Win32">
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" WarnInterfaces="true" Traceback="true" BoundsCheck="true" RuntimeLibrary="rtMultiThreadedDebug" Interfaces="true"/>
+				<Tool Name="VFLinkerTool" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" GenerateDebugInformation="true" SubSystem="subSystemConsole"/>
+				<Tool Name="VFResourceCompilerTool"/>
+				<Tool Name="VFMidlTool" SuppressStartupBanner="true"/>
+				<Tool Name="VFCustomBuildTool"/>
+				<Tool Name="VFPreLinkEventTool"/>
+				<Tool Name="VFPreBuildEventTool"/>
+				<Tool Name="VFPostBuildEventTool"/>
+				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
+		<Configuration Name="Release|Win32">
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true"/>
+				<Tool Name="VFLinkerTool" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" SubSystem="subSystemConsole"/>
+				<Tool Name="VFResourceCompilerTool"/>
+				<Tool Name="VFMidlTool" SuppressStartupBanner="true"/>
+				<Tool Name="VFCustomBuildTool"/>
+				<Tool Name="VFPreLinkEventTool"/>
+				<Tool Name="VFPreBuildEventTool"/>
+				<Tool Name="VFPostBuildEventTool"/>
+				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
+		<Configuration Name="Debug|x64">
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" WarnInterfaces="true" Traceback="true" BoundsCheck="true" RuntimeLibrary="rtMultiThreadedDebug" UseMkl="mklParallel" Interfaces="true"/>
+				<Tool Name="VFLinkerTool" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" IgnoreDefaultLibraryNames="libcmt.lib" GenerateDebugInformation="true" SubSystem="subSystemConsole" AdditionalDependencies="mkl_blas95_lp64.lib"/>
+				<Tool Name="VFResourceCompilerTool"/>
+				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TargetEnvironment="midlTargetAMD64"/>
+				<Tool Name="VFCustomBuildTool"/>
+				<Tool Name="VFPreLinkEventTool"/>
+				<Tool Name="VFPreBuildEventTool"/>
+				<Tool Name="VFPostBuildEventTool"/>
+				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
+		<Configuration Name="Release|x64">
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true"/>
+				<Tool Name="VFLinkerTool" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" SubSystem="subSystemConsole"/>
+				<Tool Name="VFResourceCompilerTool"/>
+				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TargetEnvironment="midlTargetAMD64"/>
+				<Tool Name="VFCustomBuildTool"/>
+				<Tool Name="VFPreLinkEventTool"/>
+				<Tool Name="VFPreBuildEventTool"/>
+				<Tool Name="VFPostBuildEventTool"/>
+				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration></Configurations>
+	<Files>
+		<Filter Name="Header Files" Filter="fi;fd">
+		<File RelativePath=".\auxpack.lib"/>
+		<File RelativePath=".\fftpack.lib"/>
+		<File RelativePath=".\src\GlobalDataFun.f90"/>
+		<File RelativePath=".\lapack.lib"/></Filter>
+		<Filter Name="Source Files" Filter="f90;for;f;fpp;ftn;def;odl;idl">
+		<Filter Name="aero">
+		<File RelativePath=".\src\aero.f90"/>
+		<File RelativePath=".\src\inflow.f90"/>
+		<File RelativePath=".\src\lb1.f90"/>
+		<File RelativePath=".\src\lb234.f90"/>
+		<File RelativePath=".\src\mbeamaero.f90"/>
+		<File RelativePath=".\src\mlbmodel.f90"/>
+		<File RelativePath=".\src\sectionf.f90"/></Filter>
+		<Filter Name="beam">
+		<File RelativePath=".\src\base.f90"/>
+		<File RelativePath=".\src\beam.f90"/>
+		<File RelativePath=".\src\beamh.f90"/>
+		<File RelativePath=".\src\element.f90"/>
+		<File RelativePath=".\src\node.f90"/>
+		<File RelativePath=".\src\shapef.f90"/></Filter>
+		<Filter Name="input">
+		<File RelativePath=".\src\input.f90"/>
+		<File RelativePath=".\src\inputs.f90"/></Filter>
+		<Filter Name="QHTdress">
+		<File RelativePath=".\src\trim_cl_cd.f90"/>
+		<File RelativePath=".\src\trim_get_vi_y.f90"/>
+		<File RelativePath=".\src\trim_global.f90"/>
+		<File RelativePath=".\src\trim_LinearAlgebra.f90"/></Filter>
+		<Filter Name="solver">
+		<File RelativePath=".\src\eigen.f90"/>
+		<File RelativePath=".\src\eigenbeam.f90"/>
+		<File RelativePath=".\src\hover.f90"/>
+		<File RelativePath=".\src\hoversqn.f90"/>
+		<File RelativePath=".\src\rungek.f90"/>
+		<File RelativePath=".\src\solver.f90"/>
+		<File RelativePath=".\src\timefem.f90"/>
+		<File RelativePath=".\src\vib.f90"/>
+		<File RelativePath=".\src\vibh.f90"/></Filter>
+		<File RelativePath=".\src\cfdcsd.f90"/>
+		<File RelativePath=".\src\fftwrap.f90"/>
+		<File RelativePath=".\src\forward.f90"/>
+		<File RelativePath=".\src\ftrim.f90"/>
+		<File RelativePath=".\src\funs2.f90"/>
+		<File RelativePath=".\src\lagrangepolynl.f90"/>
+		<File RelativePath=".\src\main.f90"/>
+		<File RelativePath=".\src\mpi_util.f90"/>
+		<File RelativePath=".\src\multibld.f90"/>
+		<File RelativePath=".\src\pti.f90"/>
+		<File RelativePath=".\src\rotor.f90"/>
+		<File RelativePath=".\src\stab.f90"/>
+		<File RelativePath=".\src\trim.f90"/></Filter>
+		<Filter Name="vortex" Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
+		<File RelativePath=".\src\vortex\fftw3.f90"/>
+		<File RelativePath=".\src\vortex\mmaths.f90"/>
+		<File RelativePath=".\src\vortex\vortex.f90"/></Filter></Files>
+	<Globals/></VisualStudioProject>
