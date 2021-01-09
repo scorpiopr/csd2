@@ -1,0 +1,13 @@
+include ../make.inc
+
+SRC = minput.f90 mrotor.f90 moutput.f90 mmaths.f90 vortex.f90
+OBJT = $(basename $(SRC))
+OBJ = $(addsuffix .o,$(OBJT))
+
+all : ../test/$(PRO_NAME)
+
+../test/$(PRO_NAME) : $(OBJ)
+
+$(OBJ) : %.o : %.f90
+	@$(FF) -I../modu/ -c $< -o $@
+
