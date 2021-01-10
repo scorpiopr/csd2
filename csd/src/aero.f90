@@ -462,7 +462,11 @@ real(rdt) :: SSI,SSJ,ZERO=0.0
         DO I=1,3
             !CALL INTP2D(INDVL(I),SSI,SSJ,THIS%bvqa(I,NJ,NI,1),THIS%bvqa(I,NJ,NI+1,1),THIS%bvqa(I,NJ+1,NI,1),THIS%BVQA(I,NJ+1,NI+1,1))
             !CALL INTP2D(INDVL(I),SSI,SSJ,THIS%bvqa(I,NJ,NI,2),THIS%bvqa(I,NJ,NI+1,2),THIS%bvqa(I,NJ+1,NI,2),THIS%BVQA(I,NJ+1,NI+1,2))!更改共轴上下旋翼诱导速度输入
-            CALL INTP2D(INDVL(I),SSI,SSJ,THIS%bvqa(I,NJ,NI,THIS%RotorID),THIS%bvqa(I,NJ,NI+1,THIS%RotorID),THIS%bvqa(I,NJ+1,NI,THIS%RotorID),THIS%BVQA(I,NJ+1,NI+1,THIS%RotorID))
+            IF(THIS%RotorID.EQ.1)THEN
+                CALL INTP2D(INDVL(I),SSI,SSJ,THIS%bvqa(I,NJ,NI,THIS%RotorID),THIS%bvqa(I,NJ,NI+1,THIS%RotorID),THIS%bvqa(I,NJ+1,NI,THIS%RotorID),THIS%BVQA(I,NJ+1,NI+1,THIS%RotorID))
+            ELSE IF(THIS%RotorID.EQ.2)THEN
+                CALL INTP2D(INDVL(I),SSI,SSJ,THIS%bvqa(I,NJ,THIS%nstp-NI+1,THIS%RotorID),THIS%bvqa(I,NJ,THIS%nstp-NI-1+1,THIS%RotorID),THIS%bvqa(I,NJ+1,THIS%nstp-NI+1,THIS%RotorID),THIS%BVQA(I,NJ+1,THIS%nstp-NI-1+1,THIS%RotorID))
+            END IF
         END DO
     
     END IF

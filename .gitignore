@@ -338,3 +338,7 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/csd/aim_slice.dat
+/csd/COAXIALTRIMINPUT.cfg
+/csd/lower.cfg
+/csd/MAT.DAT

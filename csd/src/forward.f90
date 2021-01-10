@@ -616,7 +616,7 @@ REAL(RDT),EXTERNAL :: FWM
 995 format(400f26.12)
 
 END SUBROUTINE
-!->++++++++++++++++++++++++++++++++++++++++++++
+!->++++++++++++++++++++++++++++++++++++++++++++THIS%HUBFC0
 SUBROUTINE OUTVMU(THIS)
 IMPLICIT NONE
 CLASS(FORWARD) :: THIS
