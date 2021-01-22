@@ -31,12 +31,21 @@ module get_vi_y
     SUBROUTINE READCOAXIALTRIM(THETA)
         IMPLICIT NONE
         REAL(8) :: THETA(:)
+        INTEGER :: ISR,I
 
         OPEN(151,FILE=trim('COAXIALTRIMINPUT.cfg') )
-        NAMELIST /COAXIALTRIM/ THETA,r_cut,rr,omega,gamma,phi70,dphi0,rho,hh,mu,alpha_s,kk,np,nr
+        NAMELIST /COAXIALTRIM/ THETA,ISR,r_cut,rr,omega,gamma,phi70,dphi0,rho,hh,mu,alpha_s,kk,np,nr
 
         REWIND(151)
         READ(151,NML=COAXIALTRIM)
+        
+        IF(ISR.EQ.1)THEN
+            DO I=1,6
+                THETA(I)=THETA(I)*180/PI
+            END DO
+            alpha_s=alpha_s*180/PI
+        END IF
+            
         !WRITE(*,NML=COAXIALTRIM)
         
     END SUBROUTINE

@@ -121,7 +121,7 @@ integer :: err,i
             THIS%root(3,this%na*THIS%nw+1,this%na),THIS%vgrid(3,THIS%nseg+1,THIS%ns+1,this%na), &
             THIS%vbpc(3,THIS%ns,this%na),THIS%vbpq(3,THIS%ns+1,this%na),&
             STAT=ERR)
-
+    
     IF(ERR.NE.0) THEN
         WRITE(*,998)
         STOP
@@ -233,7 +233,7 @@ REAL(KIND=RDT) :: PSI0=0
 		call this%sub_out(8)
 		call this%sub_out(1)
 		call this%sub_out(4)
-		call this%WPTEST(PSI0)
+		!call this%WPTEST(PSI0)
 
         if(THIS%l_iter.gt.100) then
             if(mod(THIS%l_iter,10).eq.1) exit
@@ -933,13 +933,13 @@ integer opmode,k,i,j
                 close(10,status="delete")
                 open(10,file='bladeshape2.dat')
                 close(10,status="delete")
-                open(10,file='wake_rms.dat')
+                open(10,file='freewake_rms.dat')
                 close(10,status="delete")            
             case(1) !----------------------------------------------ÆÁÄ»Êä³ö
                 write(form1,'(i4)') this%l_iter
                 write(form2,'(e10.3)') this%rms_wake
                 write(*,*) 'Iteration:',trim(form1),'    RMS:',trim(form2)
-                open(11,file="wake_rms.dat",position='append',action='write')
+                open(11,file="freewake_rms.dat",position='append',action='write')
                 write(11,*) trim(form1),trim(form2)
                 close(11)
             case(2) !----------------------------------------------Êä³ö½°¼âÎÐ
