@@ -278,6 +278,8 @@ IF(THIS%UNITYPE.EQ.0) THEN
         CALL VEQ31(AS,CTC,MU,LAMI,LAMD)
     ELSE IF(THIS%UNITYPE.EQ.1) THEN
         CALL THIS%VEQ32(AS,CTC,MU,LAMI,LAMD)
+    ELSE IF(THIS%UNITYPE.EQ.2) THEN
+        CALL VEQ33(AS,CTC,MU,LAMI,LAMD)
     END IF
     
 END SUBROUTINE 
@@ -329,7 +331,7 @@ REAL(RDT) COE,LAM,LAMH
     
 END SUBROUTINE 
 
-
+!简单定点迭代法求诱导入流比
 SUBROUTINE VEQ31(AS,CTC,MU,LAMI,LAMD)
 implicit none
 
@@ -340,6 +342,7 @@ REAL(RDT), INTENT(OUT):: LAMI,LAMD
 !-> FUNCTIONS INVOKED:
 !->
 !->+++++++++++++++++++++++++++++++++++++++++++++
+REAL(RDT) :: EPSMIN=100.0
 REAL(RDT) CT,LAMII,EPS
 INTEGER NI
 
@@ -351,17 +354,22 @@ INTEGER NI
     IF( MU .LT. 1.0D-6 ) THEN!悬停状态
         LAMI=1.0*SQRT(CT/2)
     ELSE !前飞状态
-        LAMI=CT/2/MU
         LAMI=CT/2/SQRT(MU**2+CT/2)           
         DO 5
-            LAMII=CT/2/SQRT(MU**2+(LAMD+LAMI)**2)
+            LAMII=CT/2/SQRT(MU**2+(LAMD+LAMI)**2)!简单定点迭代法求诱导入流比，公式参考Principles of Helicopter Aerodynamics,J.Gordon.Leishman,2ed,P133(95)中的式2.132
             !LAMII=(LAMD+CT*(MU**2+2*(LAMD+LAMI)**2)/2/(MU**2+(LAMD+LAMI)**2)**1.5)/(1+CT*(LAMD+LAMI)/2/(MU**2+(LAMD+LAMI)**2)**1.5)!祁浩天论文前飞均匀入流模型
+            
+            IF(EPSMIN.GT.ABS(LAMII-LAMI))THEN
+                EPSMIN=ABS(LAMII-LAMI)
+            END IF
+            
             IF( ABS(LAMII-LAMI) .LT. EPS ) THEN
                 EXIT
             END IF
             LAMI=LAMII
             NI=NI+1
             IF(NI.GT.1000) THEN
+                WRITE(*,*) EPSMIN
                 WRITE(*,*) NI,CTC,'ERROR IN VEQ3'
                 EXIT
             END IF
@@ -369,4 +377,49 @@ INTEGER NI
     END IF
 END SUBROUTINE 
 
-END
+!牛顿迭代法求桨盘均匀诱导入流比
+SUBROUTINE VEQ33(AS,CTC,MIU_XY,TEMP2,MIU_Z)
+    IMPLICIT NONE
+    
+    REAL(RDT), INTENT(IN):: MIU_XY,AS,CTC
+    REAL(RDT), INTENT(OUT):: TEMP2,MIU_Z
+    
+    REAL(RDT) :: CT,TEMP1,FUNC_LAMBDAi,DFUNC_LAMBDAi
+    INTEGER :: J=1
+    
+    CT=CTC/2
+    MIU_Z=MIU_XY*SIN(AS)/COS(AS)
+    
+    IF( MIU_XY .LT. 1.0D-6 ) THEN!悬停状态
+        TEMP2=DSQRT(CT/2)
+    ELSE !前飞状态
+        TEMP1=DSQRT(CT/2)
+        
+        !迭代进一步求初始均匀诱导速度
+        DO J = 1, 10000
+            IF(DABS(TEMP1) < 1.D-12) TEMP1 = 1.D-12
+            !FUNC_LAMBDA = DSQRT((MIU_Z + TEMP1)**2 + MIU_XY**2) + CT * 5.D-1 / TEMP1       !公式参考Principles of Helicopter Aerodynamics,J.Gordon.Leishman,2ed,P133(95)起的式2.125、2.126、2.135、2.136
+            !DFUNC_LAMBDA = (MIU_Z + TEMP1) / DSQRT((MIU_Z + TEMP1)**2 + MIU_XY**2) - CT * 5.D-1 / TEMP1**2  !但要注意：1)书中公式为桨盘总无量纲入流的函数，而本程序中为诱导速度无量纲入流的函数;2)书中公式λ默认从桨盘上方流向下方为正，在本程序直接与程序坐标系结合，为沿局部坐标系Z轴负方向流动。因此函数中诱导速度项符号与书中相反。
+            FUNC_LAMBDAi = DSQRT((MIU_Z + TEMP1)**2 + MIU_XY**2) - CT * 5.D-1 / TEMP1!桨盘诱导速度向下为正
+            DFUNC_LAMBDAi = (MIU_Z + TEMP1) / DSQRT((MIU_Z + TEMP1)**2 + MIU_XY**2) + CT * 5.D-1 / TEMP1**2
+            IF(DABS(DFUNC_LAMBDAi) < 1.D-12) THEN
+                WRITE(*,*) "诱导速度初始化导数项为零!"
+                PAUSE
+                PAUSE
+                STOP
+            END IF
+            TEMP2 = TEMP1 - FUNC_LAMBDAi / DFUNC_LAMBDAi               !牛顿迭代法  x(n+1) = x(n) - [f(x(n))/f'(x(n))]
+            IF(DABS(TEMP2 - TEMP1) < 1.D-8) THEN
+                EXIT
+            ELSE IF(J == 9999) THEN
+                WRITE(*,*) "诱导速度初始化未收敛!"
+                PAUSE
+                PAUSE
+                STOP
+            END IF
+            TEMP1 =TEMP2
+        END DO
+   END IF
+END SUBROUTINE
+
+END    
