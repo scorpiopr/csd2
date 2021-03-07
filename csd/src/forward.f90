@@ -561,8 +561,15 @@ REAL(RDT),EXTERNAL :: FWM
     
         open(135, file='fpsi2.dat')
     
-        DO J=1,NPTS
-            write(135, 995) RLUDAUD(J), (THIS%FPSI(3,J,I),I=1,THIS%NSTP)
+        !DO J=1,NPTS
+            !write(135, 995) RLUDAUD(J), (THIS%FPSI(3,J,I),I=1,THIS%NSTP)
+        !END DO
+        
+        WRITE(135,*) 'ZONE I=',NPTS,',J=',THIS%NSTP
+        DO I=1,THIS%NSTP
+            DO J=1,NPTS
+                WRITE(135,995) RLUDAUD(J)*SIN(THIS%AEROF%PSIV(I)),-RLUDAUD(J)*COS(THIS%AEROF%PSIV(I)),THIS%FPSI(3,J,I)                                     
+            END DO
         END DO
 
         CLOSE(135)   
