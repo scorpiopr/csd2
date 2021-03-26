@@ -344,3 +344,4 @@ healthchecksdb
 /csd/MAT.DAT
 *.dat
 /csd/upper.cfg
+/csd/test

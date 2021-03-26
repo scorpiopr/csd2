@@ -164,7 +164,7 @@
     CLASS(IPTIN) :: THIS
     INTEGER,INTENT(IN) :: IIN
 
-    INTEGER :: NumofRotors,RotorID,N
+    INTEGER :: NumofRotors=1,RotorID=1,N
     REAL(8) :: THETA(6)!共轴上下旋翼总距和周期变距
     INTEGER :: NLG,NPTS
     REAL(RDT) :: BTAP
