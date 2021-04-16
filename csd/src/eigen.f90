@@ -207,7 +207,8 @@ INTEGER :: VN,WN,UN,FN
         ELSE IF(FLAG.EQ.3) THEN
             VMT(:,I*2-1:I*2)=0.0
             WMT(:,I*2-1:I*2)=0.0
-            FMT(:,I)=(FMT(:,I)-FMT(THIS%NQ,I))/(FMT(1,I)-FMT(THIS%NQ,I))
+            !FMT(:,I)=(FMT(:,I)-FMT(THIS%NQ,I))/(FMT(1,I)-FMT(THIS%NQ,I))
+            FMT(:,I)=FMT(:,I)/FMT(1,I)!按诸自由度中最大幅值归一化
             UMT(:,I)=0.0
             THIS%CHN(I)=FN
         ELSE IF(FLAG.EQ.4) THEN

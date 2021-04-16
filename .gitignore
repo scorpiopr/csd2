@@ -345,3 +345,5 @@ healthchecksdb
 *.dat
 /csd/upper.cfg
 /csd/test
+/csd/HARTIICSDalone360.cfg
+/csd/HARTIICSDalone720FREQUENCY.cfg
